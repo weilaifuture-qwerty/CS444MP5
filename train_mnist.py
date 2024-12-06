@@ -18,7 +18,7 @@ from networks import UNet, SimpleEncoder, SimpleDecoder
 from absl import app, flags
 
 FLAGS = flags.FLAGS
-flags.DEFINE_float('lr', 1e-4, 'Learning Rate')
+flags.DEFINE_float('lr', 1e-3, 'Learning Rate')
 flags.DEFINE_float('step_lr', 2e-3, 'Step LR for sampling')
 flags.DEFINE_integer('num_epochs', 30, 'Number of Epochs')
 flags.DEFINE_integer('seed', 2, 'Random seed')
