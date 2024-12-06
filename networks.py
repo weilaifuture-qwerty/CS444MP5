@@ -122,15 +122,15 @@ class UNet(nn.Module):
         outputs_up_512 = torch.cat((outputs_up_512, outputs_512), dim = 1)
         outputs_up_512 = self.conv6(outputs_up_512)
 
-        outputs_up_256 = self.up2(outputs_512)
+        outputs_up_256 = self.up2(outputs_up_512)
         outputs_up_256 = torch.cat((outputs_up_256, outputs_256), dim = 1)
         outputs_up_256 = self.conv7(outputs_up_256)
 
-        outputs_up_128 = self.up3(outputs_256)
+        outputs_up_128 = self.up3(outputs_up_256)
         outputs_up_128 = torch.cat((outputs_up_128, outputs_128), dim = 1)
         outputs_up_128 = self.conv8(outputs_up_128)
 
-        outputs_up_64 = self.up4(outputs_128)
+        outputs_up_64 = self.up4(outputs_up_128)
         outputs_up_64 = torch.cat((outputs_up_64, outputs_64), dim = 1)
         outputs_up_64 = self.conv9(outputs_up_64)
         outputs = self.conv10(outputs_up_64)
