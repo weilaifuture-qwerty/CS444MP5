@@ -40,10 +40,11 @@ class ConvLayers(nn.Module):
     def __init__(self, in_channel, out_channel, kernel_size, stride, padding):
         super().__init__()
         self.conv1 = nn.Conv2d(in_channel, out_channel, kernel_size = kernel_size, stride = stride, padding = padding)
+        self.batch_norm = nn.BatchNorm2d(out_channel)
         self.relu = nn.ReLU()
 
     def forward(self, inputs):
-        return self.relu(self.conv1(inputs))
+        return self.relu(self.batch_norm(self.conv1(inputs)))
     
 class UpConv(nn.Module):
     def __init__(self, in_channel, out_channel, kernel_size, stride, padding):
