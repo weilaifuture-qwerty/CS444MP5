@@ -1,0 +1,62 @@
+Runnng on ccc0390.campuscluster.illinois.edu
+Thu Dec  5 23:35:34 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.90.07              Driver Version: 550.90.07      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-80GB          Off |   00000000:01:00.0 Off |                    0 |
+| N/A   30C    P0             65W /  500W |       1MiB /  81920MiB |     26%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+2024-12-05 23:35:38: INFO train_mnist.py:72] Number of parameters in ScoreNet: 34489347
+Traceback (most recent call last):
+  File "/home/laiwei4/CS444MP5/train_mnist.py", line 122, in <module>
+    app.run(train_scorenet)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/absl/app.py", line 308, in run
+    _run_main(main, args)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/absl/app.py", line 254, in _run_main
+    sys.exit(main(argv))
+  File "/home/laiwei4/CS444MP5/train_mnist.py", line 90, in train_scorenet
+    loss = scorenet.get_loss(data)
+  File "/home/laiwei4/CS444MP5/score.py", line 123, in get_loss
+    score = self.get_score(x_noisy, sigma)
+  File "/home/laiwei4/CS444MP5/score.py", line 108, in get_score
+    out = self.scorenet(x) / sigma
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/laiwei4/CS444MP5/networks.py", line 105, in forward
+    out_128 = self.en1(out_64)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/laiwei4/CS444MP5/networks.py", line 67, in forward
+    return self.conv2(self.conv1(self.mp1(input)))
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/laiwei4/CS444MP5/networks.py", line 47, in forward
+    return self.relu(self.batch_norm(self.conv1(inputs)))
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/conv.py", line 554, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/conv.py", line 549, in _conv_forward
+    return F.conv2d(
+RuntimeError: Given groups=1, weight of size [128, 64, 3, 3], expected input[128, 1, 16, 16] to have 64 channels, but got 1 channels instead
