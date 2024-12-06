@@ -1,0 +1,24 @@
+2024-12-06 00:28:19: INFO train_mnist.py:72] Number of parameters in ScoreNet: 34526403
+2024-12-06 00:28:56: INFO train_mnist.py:51]       loss [0000200]: 0.296485
+2024-12-06 00:29:05: INFO train_mnist.py:51]       loss [0000400]: 0.269226
+2024-12-06 00:29:14: INFO train_mnist.py:51]       loss [0000600]: 0.266240
+2024-12-06 00:29:22: INFO train_mnist.py:51]       loss [0000800]: 0.264051
+2024-12-06 00:29:31: INFO train_mnist.py:51]       loss [0001000]: 0.263089
+2024-12-06 00:29:40: INFO train_mnist.py:51]       loss [0001200]: 0.262170
+2024-12-06 00:29:49: INFO train_mnist.py:51]       loss [0001400]: 0.261715
+2024-12-06 00:29:58: INFO train_mnist.py:51]       loss [0001600]: 0.261081
+2024-12-06 00:30:07: INFO train_mnist.py:51]       loss [0001800]: 0.261144
+2024-12-06 00:30:15: INFO train_mnist.py:51]       loss [0002000]: 0.260700
+2024-12-06 00:30:24: INFO train_mnist.py:51]       loss [0002200]: 0.260347
+2024-12-06 00:30:33: INFO train_mnist.py:51]       loss [0002400]: 0.259850
+2024-12-06 00:30:41: INFO train_mnist.py:51]       loss [0002600]: 0.259459
+2024-12-06 00:30:50: INFO train_mnist.py:51]       loss [0002800]: 0.259561
+2024-12-06 00:30:59: INFO train_mnist.py:51]       loss [0003000]: 0.259456
+2024-12-06 00:31:07: INFO train_mnist.py:51]       loss [0003200]: 0.259188
+2024-12-06 00:31:16: INFO train_mnist.py:51]       loss [0003400]: 0.259322
+2024-12-06 00:31:25: INFO train_mnist.py:51]       loss [0003600]: 0.258944
+2024-12-06 00:31:34: INFO train_mnist.py:51]       loss [0003800]: 0.258971
+2024-12-06 00:31:42: INFO train_mnist.py:51]       loss [0004000]: 0.258882
+2024-12-06 00:31:51: INFO train_mnist.py:51]       loss [0004200]: 0.259009
+2024-12-06 00:31:59: INFO train_mnist.py:51]       loss [0004400]: 0.258867
+2024-12-06 00:32:08: INFO train_mnist.py:51]       loss [0004600]: 0.258443
