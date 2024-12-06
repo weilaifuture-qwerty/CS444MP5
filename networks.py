@@ -58,7 +58,7 @@ class UpConv(nn.Module):
 
 class Encode(nn.Module):
     def __init__(self, in_channel, out_channel):
-        super(Encode).__init__()
+        super().__init__()
         self.mp1 = nn.MaxPool2d(2, stride = 2) 
         self.conv1 = ConvLayers(in_channel, out_channel)
         self.conv2 = ConvLayers(out_channel, out_channel)
@@ -68,7 +68,7 @@ class Encode(nn.Module):
     
 class Decode(nn.Module):
     def __init__(self, in_channel, out_channel):
-        super(Decode).__init__()
+        super().__init__()
         self.up = UpConv(in_channel, out_channel)
         self.conv1 = ConvLayers(in_channel, out_channel)
         self.conv2 = ConvLayers(out_channel, out_channel)
@@ -101,19 +101,28 @@ class UNet(nn.Module):
         inputs = inputs.reshape(batch, 1, 32, 32)
         outputs = inputs
         # TODO (student): If you want to use a UNet, you may use this class
-        out_64 = self.conv2(self.conv1(outputs))
+        outputs = self.conv2(self.conv1(outputs))
+        out_64 = outputs
         # print(out_64.shape)
-        out_128 = self.en1(out_64)
-        out_256 = self.en2(out_128)
-        out_512 = self.en3(out_256)
-        out_1024 = self.en4(out_512)
+
+        outputs = self.en1(outputs)
+        out_128 = outputs
+
+        outputs = self.en2(outputs)
+        out_256 = outputs
+
+        outputs = self.en3(outputs)
+        out_512 = outputs
+
+        outputs = self.en4(outputs)
+        out_1024 = outputs
         # print(out_1024.shape)
         
-        out_up_512 = self.de1(out_1024, out_512)
-        out_up_256 = self.de2(out_up_512, out_256)
-        out_up_128 = self.de3(out_up_256, out_128)
-        out_up_64 = self.de4(out_up_128, out_64)
-        outputs = self.conv3(out_up_64)
+        outputs = self.de1(outputs, out_512)
+        outputs = self.de2(outputs, out_256)
+        outputs = self.de3(outputs, out_128)
+        outputs = self.de4(outputs, out_64)
+        outputs = self.conv3(outputs)
         # print(inputs.shape, outputs.shape, outputs_up_64.shape)
         outputs = outputs.reshape(batch, -1)
         return outputs
