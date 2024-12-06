@@ -101,7 +101,7 @@ class UNet(nn.Module):
         inputs = inputs.reshape(batch, 1, 32, 32)
         outputs = inputs
         # TODO (student): If you want to use a UNet, you may use this class
-        out_64 = self.conv1(outputs)
+        out_64 = self.conv2(self.conv1(outputs))
         out_128 = self.en1(out_64)
         out_256 = self.en2(out_128)
         out_512 = self.en3(out_256)
