@@ -37,31 +37,31 @@ class SimpleDecoder(nn.Module):
         return self.decoder(x)
     
 class ConvLayers(nn.Module):
-    def __init__(self, in_channel, out_channel, kernel_size, stride, padding):
+    def __init__(self, in_channel, out_channel):
         super().__init__()
-        self.conv1 = nn.Conv2d(in_channel, out_channel, kernel_size = kernel_size, stride = stride, padding = padding)
+        self.conv = nn.Conv2d(in_channel, out_channel, kernel_size = 3, stride = 1, padding = 1)
         self.batch_norm = nn.BatchNorm2d(out_channel)
         self.relu = nn.ReLU()
 
     def forward(self, inputs):
-        return self.relu(self.batch_norm(self.conv1(inputs)))
+        return self.relu(self.batch_norm(self.conv(inputs)))
     
 class UpConv(nn.Module):
-    def __init__(self, in_channel, out_channel, kernel_size, stride, padding):
+    def __init__(self, in_channel, out_channel):
         super().__init__()
         self.upsampling = nn.Upsample(scale_factor = 2)
-        self.conv1 = ConvLayers(in_channel, out_channel, kernel_size = kernel_size, stride = stride, padding = padding)
+        self.conv1 = ConvLayers(in_channel, out_channel)
 
     def forward(self, inputs):
-        inputs = self.upsampling(inputs)
-        return self.conv1(inputs)
+        out = self.upsampling(inputs)
+        return self.conv1(out)
 
 class Encode(nn.Module):
     def __init__(self, in_channel, out_channel):
         super().__init__()
         self.mp1 = nn.MaxPool2d(2, stride = 2) 
-        self.conv1 = ConvLayers(in_channel, out_channel, 3, 1, 1)
-        self.conv2 = ConvLayers(out_channel, out_channel, 3, 1, 1)
+        self.conv1 = ConvLayers(in_channel, out_channel)
+        self.conv2 = ConvLayers(out_channel, out_channel)
     
     def forward(self, input):
         return self.conv2(self.conv1(self.mp1(input)))
@@ -69,9 +69,9 @@ class Encode(nn.Module):
 class Decode(nn.Module):
     def __init__(self, in_channel, out_channel):
         super().__init__()
-        self.up = UpConv(in_channel, out_channel, 3, 1, 1)
-        self.conv1 = ConvLayers(in_channel, out_channel, 3, 1, 1)
-        self.conv2 = ConvLayers(out_channel, out_channel, 3, 1, 1)
+        self.up = UpConv(in_channel, out_channel)
+        self.conv1 = ConvLayers(in_channel, out_channel)
+        self.conv2 = ConvLayers(out_channel, out_channel)
     
     def forward(self, input, con):
         out = self.up(input)
@@ -81,8 +81,8 @@ class Decode(nn.Module):
 class UNet(nn.Module):
     def __init__(self):
         super().__init__()
-        self.conv1 = ConvLayers(1, 64, 3, 1, 1)
-        self.conv2 = ConvLayers(64, 64, 3, 1, 1)
+        self.conv1 = ConvLayers(1, 64)
+        self.conv2 = ConvLayers(64, 64)
         self.en1 = Encode(64, 128)
         self.en2 = Encode(128, 256)
         self.en3 = Encode(256, 512)
@@ -92,7 +92,7 @@ class UNet(nn.Module):
         self.de2 = Decode(512, 256)
         self.de3 = Decode(256, 128)
         self.de4 = Decode(128, 64)
-        self.conv3 = ConvLayers(64, 1, 3, 1, 1)
+        self.conv3 = ConvLayers(64, 1)
 
         # TODO (student): If you want to use a UNet, you may use this class
     
