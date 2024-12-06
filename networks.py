@@ -70,12 +70,13 @@ class Decode(nn.Module):
     def __init__(self, in_channel, out_channel):
         super().__init__()
         self.up = UpConv(in_channel, out_channel, 3, 1, 1)
-        self.conv = ConvLayers(in_channel, out_channel, 3, 1, 1)
+        self.conv1 = ConvLayers(in_channel, out_channel, 3, 1, 1)
+        self.conv2 = ConvLayers(out_channel, out_channel, 3, 1, 1)
     
     def forward(self, input, con):
         out = self.up(input)
         out = torch.cat((out, con), dim = 1)
-        return self.conv(out)
+        return self.conv2(self.conv1(out))
 
 class UNet(nn.Module):
     def __init__(self):
