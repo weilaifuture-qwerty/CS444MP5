@@ -49,53 +49,47 @@ class UpConv(nn.Module):
     def __init__(self, in_channel, out_channel, kernel_size, stride, padding):
         super().__init__()
         self.upsampling = nn.Upsample(scale_factor = 2)
-        self.conv1 = nn.Conv2d(in_channel, out_channel, kernel_size = kernel_size, stride = stride, padding = padding)
-        self.relu = nn.ReLU()
+        self.conv1 = ConvLayers(in_channel, out_channel, kernel_size = kernel_size, stride = stride, padding = padding)
 
     def forward(self, inputs):
         inputs = self.upsampling(inputs)
-        return self.relu(self.conv1(inputs))
+        return self.conv1(inputs)
 
-class Conv(nn.Module):
+class Encode(nn.Module):
     def __init__(self, in_channel, out_channel):
         super().__init__()
+        self.mp1 = nn.MaxPool2d(2, stride = 2) 
         self.conv1 = ConvLayers(in_channel, out_channel, 3, 1, 1)
         self.conv2 = ConvLayers(out_channel, out_channel, 3, 1, 1)
     
     def forward(self, input):
-        return self.conv2(self.conv1(input))
-
+        return self.conv2(self.conv1(self.mp1(input)))
+    
+class Decode(nn.Module):
+    def __init__(self, in_channel, out_channel):
+        super().__init__()
+        self.up = UpConv(in_channel, out_channel, 3, 1, 1)
+        self.conv = ConvLayers(in_channel, out_channel, 3, 1, 1)
+    
+    def forward(self, input, con):
+        out = self.up(input)
+        out = torch.cat((out, con), dim = 1)
+        return self.conv(out)
 
 class UNet(nn.Module):
     def __init__(self):
         super().__init__()
-        self.conv1 = Conv(1, 64)
+        self.conv1 = ConvLayers(1, 64, 3, 1, 1)
+        self.en1 = Encode(64, 128)
+        self.en2 = Encode(128, 256)
+        self.en3 = Encode(256, 512)
+        self.en4 = Encode(512, 1024)
 
-        self.mp1 = nn.MaxPool2d(2, stride = 2) # 64 * 284 * 284
-        self.conv2 = Conv(64, 128)
-
-        self.mp2 = nn.MaxPool2d(2, stride = 2) # 128 * 140 * 140
-        self.conv3 = Conv(128, 256)
-
-        self.mp3 = nn.MaxPool2d(2, stride = 2) # 256 * 68 * 68
-        self.conv4 = Conv(256, 512)
-
-        self.mp4 = nn.MaxPool2d(2, stride = 2) # 512 * 32 * 32
-        self.conv5 = Conv(512, 1024)
-
-        self.up1 = UpConv(1024, 512, 3, 1, 1)
-        self.conv6 = Conv(1024, 512)
-
-        self.up2 = UpConv(512, 256, 3, 1, 1)
-        self.conv7 = Conv(512, 256)
-
-        self.up3 = UpConv(256, 128, 3, 1, 1)
-        self.conv8 = Conv(256, 128)
-
-        self.up4 = UpConv(128, 64, 3, 1, 1)
-        self.conv9 = Conv(128, 64)
-
-        self.conv10 = ConvLayers(64, 1, 1, 1, 0)
+        self.de1 = Decode(1024, 512)
+        self.de2 = Decode(512, 256)
+        self.de3 = Decode(256, 128)
+        self.de4 = Decode(128, 64)
+        self.conv2 = ConvLayers(64, 1, 1, 1, 0)
 
         # TODO (student): If you want to use a UNet, you may use this class
     
@@ -104,37 +98,21 @@ class UNet(nn.Module):
         inputs = inputs.reshape(batch, 1, 32, 32)
         outputs = inputs
         # TODO (student): If you want to use a UNet, you may use this class
-        outputs_64 = self.conv1(outputs)
-
-        outputs_128 = self.mp1(outputs_64)
-        outputs_128 = self.conv2(outputs_128)
-
-        outputs_256 = self.mp2(outputs_128)
-        outputs_256 = self.conv3(outputs_256)
-
-        outputs_512 = self.mp3(outputs_256)
-        outputs_512 = self.conv4(outputs_512)
-
-        outputs_1024 = self.mp4(outputs_512)
-        outputs_1024 = self.conv5(outputs_1024)
-
-        outputs_up_512 = self.up1(outputs_1024)
-        outputs_up_512 = torch.cat((outputs_up_512, outputs_512), dim = 1)
-        outputs_up_512 = self.conv6(outputs_up_512)
-
-        outputs_up_256 = self.up2(outputs_up_512)
-        outputs_up_256 = torch.cat((outputs_up_256, outputs_256), dim = 1)
-        outputs_up_256 = self.conv7(outputs_up_256)
-
-        outputs_up_128 = self.up3(outputs_up_256)
-        outputs_up_128 = torch.cat((outputs_up_128, outputs_128), dim = 1)
-        outputs_up_128 = self.conv8(outputs_up_128)
-
-        outputs_up_64 = self.up4(outputs_up_128)
-        outputs_up_64 = torch.cat((outputs_up_64, outputs_64), dim = 1)
-        outputs_up_64 = self.conv9(outputs_up_64)
-        outputs = self.conv10(outputs_up_64)
-
+        out_64 = self.conv1(outputs)
+        out_128 = self.en1(out_64)
+        out_256 = self.en2(out_128)
+        out_512 = self.en3(out_256)
+        out_1024 = self.en4(out_512)
+        # print(out_1024.shape)
+        
+        out_up_512 = self.de1(out_1024, out_512)
+        # print(out_up_512.shape)
+        out_up_256 = self.de2(out_up_512, out_256)
+        # print(out_up_256.shape)
+        out_up_128 = self.de3(out_up_256, out_128)
+        # print(out_up_128.shape)
+        out_up_64 = self.de4(out_up_128, out_64)
+        outputs = self.conv2(out_up_64)
         # print(inputs.shape, outputs.shape, outputs_up_64.shape)
         outputs = outputs.reshape(batch, -1)
         return outputs
