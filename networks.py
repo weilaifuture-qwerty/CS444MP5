@@ -40,11 +40,11 @@ class ConvLayers(nn.Module):
     def __init__(self, in_channel, out_channel, kernel_size, stride, padding):
         super().__init__()
         self.conv1 = nn.Conv2d(in_channel, out_channel, kernel_size = kernel_size, stride = stride, padding = padding)
-        self.batch_norm = nn.BatchNorm2d(out_channel)
+        # self.batch_norm = nn.BatchNorm2d(out_channel)
         self.relu = nn.ReLU()
 
     def forward(self, inputs):
-        return self.relu(self.batch_norm(self.conv1(inputs)))
+        return self.relu(self.conv1(inputs))
     
 class UpConv(nn.Module):
     def __init__(self, in_channel, out_channel, kernel_size, stride, padding):
@@ -102,7 +102,7 @@ class UNet(nn.Module):
         outputs = inputs
         # TODO (student): If you want to use a UNet, you may use this class
         out_64 = self.conv2(self.conv1(outputs))
-        print(out_64.shape)
+        # print(out_64.shape)
         out_128 = self.en1(out_64)
         out_256 = self.en2(out_128)
         out_512 = self.en3(out_256)
