@@ -38,9 +38,9 @@ class SimpleDecoder(nn.Module):
     
 class ConvLayers(nn.Module):
     def __init__(self, in_channel, out_channel):
-        super().__init__()
+        super(ConvLayers, self).__init__()
         self.conv = nn.Conv2d(in_channel, out_channel, kernel_size = 3, stride = 1, padding = 1)
-        self.batch_norm = nn.BatchNorm2d(out_channel)
+        self.batch_norm = nn.InstanceNorm2d(out_channel)
         self.relu = nn.ReLU()
 
     def forward(self, inputs):
@@ -48,8 +48,8 @@ class ConvLayers(nn.Module):
     
 class UpConv(nn.Module):
     def __init__(self, in_channel, out_channel):
-        super().__init__()
-        self.upsampling = nn.Upsample(scale_factor = 2, mode = "bilinear", align_corners = True)
+        super(UpConv, self).__init__()
+        self.upsampling = nn.Upsample(scale_factor = 2, mode = 'bilinear', align_corners = True)
         self.conv1 = ConvLayers(in_channel, out_channel)
 
     def forward(self, inputs):
@@ -58,7 +58,7 @@ class UpConv(nn.Module):
 
 class Encode(nn.Module):
     def __init__(self, in_channel, out_channel):
-        super().__init__()
+        super(Encode, self).__init__()
         self.mp1 = nn.MaxPool2d(2, stride = 2) 
         self.conv1 = ConvLayers(in_channel, out_channel)
         self.conv2 = ConvLayers(out_channel, out_channel)
@@ -68,7 +68,7 @@ class Encode(nn.Module):
     
 class Decode(nn.Module):
     def __init__(self, in_channel, out_channel):
-        super().__init__()
+        super(Decode, self).__init__()
         self.up = UpConv(in_channel, out_channel)
         self.conv1 = ConvLayers(in_channel, out_channel)
         self.conv2 = ConvLayers(out_channel, out_channel)
@@ -80,7 +80,7 @@ class Decode(nn.Module):
 
 class UNet(nn.Module):
     def __init__(self):
-        super().__init__()
+        super(UNet, self).__init__()
         self.conv1 = ConvLayers(1, 64)
         self.conv2 = ConvLayers(64, 64)
         self.en1 = Encode(64, 128)
@@ -115,7 +115,6 @@ class UNet(nn.Module):
         out_512 = outputs
 
         outputs = self.en4(outputs)
-        out_1024 = outputs
         # print(out_1024.shape)
         
         outputs = self.de1(outputs, out_512)
