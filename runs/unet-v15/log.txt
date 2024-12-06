@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/laiwei4/CS444MP5/train_mnist.py", line 122, in <module>
+    app.run(train_scorenet)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/absl/app.py", line 308, in run
+    _run_main(main, args)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/absl/app.py", line 254, in _run_main
+    sys.exit(main(argv))
+  File "/home/laiwei4/CS444MP5/train_mnist.py", line 64, in train_scorenet
+    net = UNet()
+  File "/home/laiwei4/CS444MP5/networks.py", line 86, in __init__
+    self.en1 = Encode(64, 128)
+  File "/home/laiwei4/CS444MP5/networks.py", line 62, in __init__
+    self.mp1 = nn.MaxPool2d(2, stride = 2) 
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1968, in __setattr__
+    raise AttributeError(
+AttributeError: cannot assign module before Module.__init__() call
