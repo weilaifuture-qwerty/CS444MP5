@@ -81,6 +81,7 @@ class UNet(nn.Module):
     def __init__(self):
         super().__init__()
         self.conv1 = ConvLayers(1, 64, 3, 1, 1)
+        self.conv2 = ConvLayers(64, 64, 3, 1, 1)
         self.en1 = Encode(64, 128)
         self.en2 = Encode(128, 256)
         self.en3 = Encode(256, 512)
