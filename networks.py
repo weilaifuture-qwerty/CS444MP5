@@ -49,7 +49,7 @@ class ConvLayers(nn.Module):
 class UpConv(nn.Module):
     def __init__(self, in_channel, out_channel):
         super().__init__()
-        self.upsampling = nn.Upsample(scale_factor = 2)
+        self.upsampling = nn.Upsample(scale_factor = 2, mode = "bilinear", align_corners = True)
         self.conv1 = ConvLayers(in_channel, out_channel)
 
     def forward(self, inputs):
@@ -58,7 +58,7 @@ class UpConv(nn.Module):
 
 class Encode(nn.Module):
     def __init__(self, in_channel, out_channel):
-        super().__init__()
+        super(Encode).__init__()
         self.mp1 = nn.MaxPool2d(2, stride = 2) 
         self.conv1 = ConvLayers(in_channel, out_channel)
         self.conv2 = ConvLayers(out_channel, out_channel)
@@ -68,7 +68,7 @@ class Encode(nn.Module):
     
 class Decode(nn.Module):
     def __init__(self, in_channel, out_channel):
-        super().__init__()
+        super(Decode).__init__()
         self.up = UpConv(in_channel, out_channel)
         self.conv1 = ConvLayers(in_channel, out_channel)
         self.conv2 = ConvLayers(out_channel, out_channel)
