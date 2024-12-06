@@ -89,7 +89,7 @@ class UNet(nn.Module):
         self.de2 = Decode(512, 256)
         self.de3 = Decode(256, 128)
         self.de4 = Decode(128, 64)
-        self.conv2 = ConvLayers(64, 1, 1, 1, 0)
+        self.conv2 = ConvLayers(64, 1, 3, 1, 1)
 
         # TODO (student): If you want to use a UNet, you may use this class
     
@@ -106,11 +106,8 @@ class UNet(nn.Module):
         # print(out_1024.shape)
         
         out_up_512 = self.de1(out_1024, out_512)
-        # print(out_up_512.shape)
         out_up_256 = self.de2(out_up_512, out_256)
-        # print(out_up_256.shape)
         out_up_128 = self.de3(out_up_256, out_128)
-        # print(out_up_128.shape)
         out_up_64 = self.de4(out_up_128, out_64)
         outputs = self.conv2(out_up_64)
         # print(inputs.shape, outputs.shape, outputs_up_64.shape)
