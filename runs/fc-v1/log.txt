@@ -1,0 +1,8 @@
+2024-12-05 22:45:55: INFO train_mnist.py:72] Number of parameters in ScoreNet: 31340865
+2024-12-05 22:46:21: INFO train_mnist.py:51]       loss [0000200]: 0.345880
+2024-12-05 22:46:28: INFO train_mnist.py:51]       loss [0000400]: 0.300475
+2024-12-05 22:46:35: INFO train_mnist.py:51]       loss [0000600]: 0.284103
+2024-12-05 22:46:42: INFO train_mnist.py:51]       loss [0000800]: 0.274545
+2024-12-05 22:46:49: INFO train_mnist.py:51]       loss [0001000]: 0.269929
+2024-12-05 22:46:56: INFO train_mnist.py:51]       loss [0001200]: 0.267098
+2024-12-05 22:47:03: INFO train_mnist.py:51]       loss [0001400]: 0.265644
