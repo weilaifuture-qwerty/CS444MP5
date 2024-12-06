@@ -1,0 +1,45 @@
+Runnng on ccc0387.campuscluster.illinois.edu
+Fri Dec  6 00:43:02 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.90.07              Driver Version: 550.90.07      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-80GB          Off |   00000000:C1:00.0 Off |                    0 |
+| N/A   26C    P0             64W /  500W |       1MiB /  81920MiB |     26%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+2024-12-06 00:43:06: INFO train_mnist.py:72] Number of parameters in ScoreNet: 34526403
+2024-12-06 00:43:52: INFO train_mnist.py:51]       loss [0000200]: 0.295159
+2024-12-06 00:44:14: INFO train_mnist.py:51]       loss [0000400]: 0.268934
+2024-12-06 00:44:36: INFO train_mnist.py:51]       loss [0000600]: 0.265966
+2024-12-06 00:44:58: INFO train_mnist.py:51]       loss [0000800]: 0.264108
+2024-12-06 00:45:21: INFO train_mnist.py:51]       loss [0001000]: 0.262971
+2024-12-06 00:45:43: INFO train_mnist.py:51]       loss [0001200]: 0.262113
+2024-12-06 00:46:05: INFO train_mnist.py:51]       loss [0001400]: 0.261634
+2024-12-06 00:46:27: INFO train_mnist.py:51]       loss [0001600]: 0.261025
+2024-12-06 00:46:49: INFO train_mnist.py:51]       loss [0001800]: 0.261028
+2024-12-06 00:47:11: INFO train_mnist.py:51]       loss [0002000]: 0.260536
+2024-12-06 00:47:33: INFO train_mnist.py:51]       loss [0002200]: 0.260308
+2024-12-06 00:47:55: INFO train_mnist.py:51]       loss [0002400]: 0.259853
+2024-12-06 00:48:17: INFO train_mnist.py:51]       loss [0002600]: 0.259495
+2024-12-06 00:48:39: INFO train_mnist.py:51]       loss [0002800]: 0.259616
+2024-12-06 00:49:01: INFO train_mnist.py:51]       loss [0003000]: 0.259437
+2024-12-06 00:49:23: INFO train_mnist.py:51]       loss [0003200]: 0.259180
+2024-12-06 00:49:45: INFO train_mnist.py:51]       loss [0003400]: 0.259359
+2024-12-06 00:50:07: INFO train_mnist.py:51]       loss [0003600]: 0.258992
+2024-12-06 00:50:29: INFO train_mnist.py:51]       loss [0003800]: 0.259010
+2024-12-06 00:50:51: INFO train_mnist.py:51]       loss [0004000]: 0.258904
+2024-12-06 00:51:13: INFO train_mnist.py:51]       loss [0004200]: 0.258982
+2024-12-06 00:51:35: INFO train_mnist.py:51]       loss [0004400]: 0.258883
+2024-12-06 00:51:57: INFO train_mnist.py:51]       loss [0004600]: 0.258458
