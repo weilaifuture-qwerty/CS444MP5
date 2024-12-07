@@ -40,7 +40,7 @@ class ConvLayers(nn.Module):
     def __init__(self, in_channel, out_channel):
         super(ConvLayers, self).__init__()
         self.conv = nn.Conv2d(in_channel, out_channel, kernel_size = 3, stride = 1, padding = 1)
-        self.batch_norm = nn.InstanceNorm2d(out_channel)
+        self.batch_norm = nn.InstanceNorm2d(out_channel, affine = True)
         self.relu = nn.ReLU()
 
     def forward(self, inputs):

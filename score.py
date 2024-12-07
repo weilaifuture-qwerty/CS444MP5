@@ -91,7 +91,7 @@ class ScoreNet(nn.Module):
                 # TODO: Implement the Langevin dynamics
                 # Append the new trajectory to `traj`
                 z_t = torch.randn_like(x)
-                x = x + step_size * score + math.sqrt(2 * step_size) * z_t
+                x = x + step_size * score + torch.sqrt(2 * step_size) * z_t
                 traj.append(x)
 
         traj = torch.stack(traj, dim=0).view(sigmas.size(0), n_steps_each, *x.size())
@@ -121,9 +121,8 @@ class ScoreNet(nn.Module):
         sigma_2 = sigma ** 2
         tmp = - noise / sigma_2
         score = self.get_score(x_noisy, sigma)
-        loss = (score - tmp).pow(2) * sigma_2
+        loss = ((score - tmp) ** 2) * sigma_2
         return loss.mean() / 2
-
 
     def forward(self, x):
         """
