@@ -1,0 +1,49 @@
+Runnng on ccc0387.campuscluster.illinois.edu
+Sat Dec  7 19:53:50 2024       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 550.90.07              Driver Version: 550.90.07      CUDA Version: 12.4     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-80GB          Off |   00000000:C1:00.0 Off |                    0 |
+| N/A   26C    P0             64W /  500W |       1MiB /  81920MiB |     27%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+2024-12-07 19:54:17: INFO train_mnist.py:73] Number of parameters in ScoreNet: 34518081
+torch.Size([128, 1024, 2, 2]) torch.Size([128, 512, 4, 4])
+Traceback (most recent call last):
+  File "/home/laiwei4/CS444MP5/train_mnist.py", line 123, in <module>
+    app.run(train_scorenet)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/absl/app.py", line 308, in run
+    _run_main(main, args)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/absl/app.py", line 254, in _run_main
+    sys.exit(main(argv))
+  File "/home/laiwei4/CS444MP5/train_mnist.py", line 91, in train_scorenet
+    loss = scorenet.get_loss(data)
+  File "/home/laiwei4/CS444MP5/score.py", line 123, in get_loss
+    score = self.get_score(x_noisy, sigma)
+  File "/home/laiwei4/CS444MP5/score.py", line 108, in get_score
+    out = self.scorenet(x) / sigma
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/laiwei4/CS444MP5/unet.py", line 104, in forward
+    x = self.up1(x5, x4)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/projects/illinois/class/cs444/saurabhg/fa2024/mp3/venv/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/laiwei4/CS444MP5/unet.py", line 66, in forward
+    x = torch.cat([x2, x1], dim=1)
+RuntimeError: Sizes of tensors must match except in dimension 1. Expected size 4 but got size 2 for tensor number 1 in the list.
