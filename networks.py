@@ -75,6 +75,9 @@ class Decode(nn.Module):
     
     def forward(self, input, con):
         out = self.up(input)
+        diffx = con.shape[2] - out.shape[2]
+        diffy = con.shape[3] - out.shape[3]
+        con = con[:, :, diffx//2 : con.shape[2] - (diffx+1) // 2, diffy//2 : con.shape[3] - (diffy+1)//2]
         out = torch.cat((con, out), dim = 1)
         return self.conv2(self.conv1(out))
 
