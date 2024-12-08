@@ -77,7 +77,7 @@ class Decode(nn.Module):
         out = self.up(input)
         diffx = con.shape[2] - out.shape[2]
         diffy = con.shape[3] - out.shape[3]
-        con = con[:, :, diffx//2 : con.shape[2] - (diffx+1) // 2, diffy//2 : con.shape[3] - (diffy+1)//2]
+        out = out[:, :, diffx//2 : out.shape[2] - (diffx+1) // 2, diffy//2 : out.shape[3] - (diffy+1)//2]
         out = torch.cat((con, out), dim = 1)
         return self.conv2(self.conv1(out))
 
@@ -95,7 +95,7 @@ class UNet(nn.Module):
         self.de2 = Decode(512, 256)
         self.de3 = Decode(256, 128)
         self.de4 = Decode(128, 64)
-        self.conv3 = ConvLayers(64, 1)
+        self.conv3 = nn.Conv2d(64, 1, kernel_size = 1)
 
         # TODO (student): If you want to use a UNet, you may use this class
     

@@ -77,7 +77,7 @@ def train_scorenet(_):
     dataset = datasets.MNIST(FLAGS.mnist_data_dir, train=True, download=True, transform=transform)
     dataloader = DataLoader(dataset, batch_size=FLAGS.batch_size, shuffle=True)
     
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'mps')
     scorenet.to(device)
     optimizer = optim.Adam(scorenet.parameters(), lr=FLAGS.lr)
     iterations = 0
