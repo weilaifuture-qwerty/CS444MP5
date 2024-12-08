@@ -59,7 +59,7 @@ class UpConv(nn.Module):
 class Encode(nn.Module):
     def __init__(self, in_channel, out_channel):
         super(Encode, self).__init__()
-        self.mp1 = nn.MaxPool2d(2, stride = 2) 
+        self.mp1 = nn.MaxPool2d(2) 
         self.conv1 = ConvLayers(in_channel, out_channel)
         self.conv2 = ConvLayers(out_channel, out_channel)
     

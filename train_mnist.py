@@ -15,7 +15,7 @@ from io import BytesIO
 
 from score import ScoreNet
 from networks import SimpleEncoder, SimpleDecoder 
-from unet import UNet
+from networks import UNet
 from absl import app, flags
 
 FLAGS = flags.FLAGS
