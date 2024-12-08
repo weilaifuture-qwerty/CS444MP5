@@ -44,19 +44,16 @@ class Down(nn.Module):
 class Up(nn.Module):
     """Upscaling then double conv"""
 
-    def __init__(self, in_channels, out_channels, bilinear=True):
+    def __init__(self, in_channels, out_channels):
         super().__init__()
 
         # if bilinear, use the normal convolutions to reduce the number of channels
-        if bilinear:
-            self.up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
-            self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
-        else:
-            self.up = nn.ConvTranspose2d(in_channels, in_channels // 2, kernel_size=2, stride=2)
-            self.conv = DoubleConv(in_channels, out_channels)
+        self.up = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
+        self.conv1 = nn.Conv2d(in_channels, out_channels, 3)
+        self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
 
     def forward(self, x1, x2):
-        x1 = self.up(x1)
+        x1 =self.conv1(self.up(x1))
         # input is CHW
         diffY = x2.size()[2] - x1.size()[2]
         diffX = x2.size()[3] - x1.size()[3]
@@ -95,14 +92,19 @@ class UNet(nn.Module):
         self.outc = (OutConv(64, 1))
 
     def forward(self, x):
+        batch = x.shape[0]
+        x = x.reshape(batch, 1, 32, 32)
         x1 = self.inc(x)
         x2 = self.down1(x1)
         x3 = self.down2(x2)
         x4 = self.down3(x3)
         x5 = self.down4(x4)
+
+        print(x5.shape, x4.shape)
         x = self.up1(x5, x4)
         x = self.up2(x, x3)
         x = self.up3(x, x2)
         x = self.up4(x, x1)
         logits = self.outc(x)
+        logits = logits.reshape(batch, -1)
         return logits
